@@ -1,0 +1,23 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="760" height="450" viewBox="0 0 760 450">
+  <rect width="760" height="450" fill="#ffffff"/>
+  <text x="380" y="42" text-anchor="middle" font-family="Arial" font-size="24" font-weight="700" fill="#111827">LoRA Rank Ablation</text>
+  <text x="380" y="72" text-anchor="middle" font-family="Arial" font-size="14" fill="#475569">Validation loss by adapter rank</text>
+  <line x1="95" y1="360" x2="690" y2="360" stroke="#CBD5E1"/>
+  <line x1="95" y1="110" x2="95" y2="360" stroke="#CBD5E1"/>
+  <polyline points="180,246 380,260 580,150" fill="none" stroke="#2563EB" stroke-width="4"/>
+  <circle cx="180" cy="246" r="7" fill="#2563EB"/>
+  <circle cx="380" cy="260" r="7" fill="#2563EB"/>
+  <circle cx="580" cy="150" r="7" fill="#2563EB"/>
+  <text x="180" y="388" text-anchor="middle" font-family="Arial" font-size="14" fill="#111827">Rank 8</text>
+  <text x="380" y="388" text-anchor="middle" font-family="Arial" font-size="14" fill="#111827">Rank 16</text>
+  <text x="580" y="388" text-anchor="middle" font-family="Arial" font-size="14" fill="#111827">Rank 32</text>
+  <text x="180" y="230" text-anchor="middle" font-family="Arial" font-size="13" fill="#111827">0.7618</text>
+  <text x="380" y="244" text-anchor="middle" font-family="Arial" font-size="13" fill="#111827">0.7760</text>
+  <text x="580" y="134" text-anchor="middle" font-family="Arial" font-size="13" fill="#111827">0.7171</text>
+  <text x="180" y="210" text-anchor="middle" font-family="Arial" font-size="11" fill="#64748B">21.0M params</text>
+  <text x="380" y="224" text-anchor="middle" font-family="Arial" font-size="11" fill="#64748B">13.6M params</text>
+  <text x="580" y="114" text-anchor="middle" font-family="Arial" font-size="11" fill="#64748B">83.9M params</text>
+  <text x="35" y="365" font-family="Arial" font-size="12" fill="#64748B">0.80</text>
+  <text x="35" y="240" font-family="Arial" font-size="12" fill="#64748B">0.76</text>
+  <text x="35" y="115" font-family="Arial" font-size="12" fill="#64748B">0.72</text>
+</svg>

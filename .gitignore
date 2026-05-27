@@ -1,0 +1,28 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.log
+.env
+.venv/
+venv/
+
+# Model artifacts and checkpoints
+model/
+checkpoints/
+outputs/
+*.safetensors
+*.bin
+*.pt
+*.pth
+adapter_model.*
+
+# Local data and generated evaluation dumps
+*.jsonl
+api_requests.log
+results/*.json
+
+# System/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

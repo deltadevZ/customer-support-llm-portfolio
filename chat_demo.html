@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Support AI — Part B Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #f5f5f7;
+            --bg-secondary: #ffffff;
+            --bg-chat: #fafafa;
+            --bg-user-msg: #7c3aed;
+            --bg-assistant-msg: #f0eef6;
+            --bg-input: #ffffff;
+            --border-color: #e2e2ea;
+            --text-primary: #1a1a2e;
+            --text-secondary: #555566;
+            --text-muted: #8e8ea0;
+            --accent: #7c3aed;
+            --accent-hover: #6d28d9;
+            --accent-glow: rgba(124, 58, 237, 0.1);
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--bg-secondary);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .header-icon {
+            width: 38px; height: 38px; border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent), #a855f7);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; flex-shrink: 0; color: white;
+        }
+
+        .header-info h1 { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); }
+        .header-info p { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+
+        .header-badge {
+            margin-left: auto; font-size: 11px; color: var(--text-muted);
+            background: var(--bg-primary); padding: 5px 12px; border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .chat-container {
+            flex: 1; overflow-y: auto; padding: 24px;
+            background: var(--bg-chat); scroll-behavior: smooth;
+        }
+
+        .chat-container::-webkit-scrollbar { width: 6px; }
+        .chat-container::-webkit-scrollbar-track { background: transparent; }
+        .chat-container::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+
+        .welcome-state {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; height: 100%; text-align: center; opacity: 0.8;
+        }
+
+        .welcome-state .icon {
+            width: 64px; height: 64px; border-radius: 16px;
+            background: linear-gradient(135deg, var(--accent), #a855f7);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; margin-bottom: 20px; color: white;
+        }
+
+        .welcome-state h2 { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--text-primary); }
+        .welcome-state p { font-size: 13px; color: var(--text-muted); max-width: 360px; line-height: 1.6; }
+
+        .welcome-suggestions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; justify-content: center; }
+
+        .suggestion-chip {
+            font-size: 12px; padding: 8px 14px; border-radius: 20px;
+            border: 1px solid var(--border-color); background: var(--bg-secondary);
+            color: var(--text-secondary); cursor: pointer; transition: all 0.2s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .suggestion-chip:hover {
+            border-color: var(--accent); color: var(--accent); background: var(--accent-glow);
+        }
+
+        .message {
+            max-width: 680px; margin: 0 auto 20px auto;
+            display: flex; gap: 12px; animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-avatar {
+            width: 32px; height: 32px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 600; flex-shrink: 0; margin-top: 2px; color: white;
+        }
+
+        .message.user .message-avatar { background: var(--bg-user-msg); }
+        .message.assistant .message-avatar { background: linear-gradient(135deg, var(--accent), #a855f7); }
+
+        .message-content { flex: 1; }
+        .message-role { font-size: 12px; font-weight: 600; margin-bottom: 5px; color: var(--text-secondary); }
+        .message-text { font-size: 14px; line-height: 1.65; color: var(--text-primary); }
+
+        .message.assistant .message-text {
+            background: var(--bg-assistant-msg); padding: 14px 18px;
+            border-radius: 4px 14px 14px 14px; border: 1px solid var(--border-color);
+        }
+
+        .message.user .message-text {
+            background: var(--bg-user-msg); padding: 14px 18px;
+            border-radius: 14px 4px 14px 14px; color: white;
+        }
+
+        .message-time { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+
+        .typing-indicator { display: none; max-width: 680px; margin: 0 auto 20px auto; gap: 12px; }
+        .typing-indicator.visible { display: flex; }
+
+        .typing-dots {
+            background: var(--bg-assistant-msg); padding: 14px 18px;
+            border-radius: 4px 14px 14px 14px; border: 1px solid var(--border-color);
+            display: flex; gap: 5px; align-items: center;
+        }
+
+        .typing-dots span {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: var(--text-muted); animation: bounce 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: 0s; }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .input-area {
+            padding: 16px 24px 20px; background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color); box-shadow: 0 -1px 3px rgba(0,0,0,0.04);
+        }
+
+        .input-wrapper { max-width: 680px; margin: 0 auto; display: flex; gap: 10px; align-items: flex-end; }
+
+        .input-field {
+            flex: 1; background: var(--bg-primary); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 13px 18px; color: var(--text-primary);
+            font-size: 14px; font-family: 'DM Sans', sans-serif; outline: none;
+            transition: border-color 0.2s ease; resize: none; max-height: 120px; line-height: 1.5;
+        }
+
+        .input-field::placeholder { color: var(--text-muted); }
+        .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+
+        .send-button {
+            width: 44px; height: 44px; border: none; border-radius: 12px;
+            background: var(--accent); color: white; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s ease; flex-shrink: 0;
+        }
+
+        .send-button:hover { background: var(--accent-hover); transform: scale(1.04); }
+        .send-button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+        .send-button svg { width: 18px; height: 18px; }
+
+        .connection-bar {
+            padding: 8px 24px; background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex; align-items: center; gap: 8px; font-size: 12px;
+        }
+
+        .connection-bar input {
+            flex: 1; background: var(--bg-primary); border: 1px solid var(--border-color);
+            border-radius: 6px; padding: 6px 12px; color: var(--text-primary);
+            font-size: 12px; font-family: 'DM Sans', sans-serif; outline: none;
+        }
+
+        .connection-bar input:focus { border-color: var(--accent); }
+        .connection-bar label { color: var(--text-muted); flex-shrink: 0; }
+
+        .connect-btn {
+            padding: 6px 14px; background: var(--accent); border: none; border-radius: 6px;
+            color: white; font-size: 12px; font-family: 'DM Sans', sans-serif;
+            cursor: pointer; font-weight: 500;
+        }
+
+        .connect-btn:hover { background: var(--accent-hover); }
+
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; flex-shrink: 0; }
+        .status-dot.connected { background: #22c55e; }
+    </style>
+</head>
+<body>
+
+    <div class="connection-bar">
+        <div class="status-dot" id="statusDot"></div>
+        <label>API:</label>
+        <input type="text" id="apiUrl" placeholder="Paste your ngrok URL here (e.g. https://abc123.ngrok-free.dev)">
+        <button class="connect-btn" onclick="testConnection()">Connect</button>
+    </div>
+
+    <div class="header">
+        <div class="header-icon">CS</div>
+        <div class="header-info">
+            <h1>Customer Support Assistant</h1>
+            <p>QLoRA Fine-tuned Mistral-7B — Part B Demo</p>
+        </div>
+        <div class="header-badge">Frontiers in AI &amp; Data Science</div>
+    </div>
+
+    <div class="chat-container" id="chatContainer">
+        <div class="welcome-state" id="welcomeState">
+            <div class="icon">CS</div>
+            <h2>Customer Support Assistant</h2>
+            <p>A QLoRA fine-tuned Mistral-7B model trained on the Bitext customer support dataset. Ask me about accounts, orders, payments, refunds, subscriptions, and more.</p>
+            <div class="welcome-suggestions">
+                <button class="suggestion-chip" onclick="sendSuggestion(this)">I want to cancel my subscription</button>
+                <button class="suggestion-chip" onclick="sendSuggestion(this)">Where is my order?</button>
+                <button class="suggestion-chip" onclick="sendSuggestion(this)">How do I change my password?</button>
+                <button class="suggestion-chip" onclick="sendSuggestion(this)">I need a refund</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="typing-indicator" id="typingIndicator">
+        <div class="message-avatar" style="background: linear-gradient(135deg, #7c3aed, #a855f7); color: white;">AI</div>
+        <div class="typing-dots">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+
+    <div class="input-area">
+        <div class="input-wrapper">
+            <textarea class="input-field" id="messageInput" placeholder="Type a customer support question..." rows="1" onkeydown="handleKey(event)"></textarea>
+            <button class="send-button" id="sendButton" onclick="sendMessage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let API_URL = '';
+        let conversationHistory = [];
+        let isConnected = false;
+
+        const input = document.getElementById('messageInput');
+        input.addEventListener('input', () => {
+            input.style.height = 'auto';
+            input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+        });
+
+        async function testConnection() {
+            const url = document.getElementById('apiUrl').value.trim().replace(/\/$/, '');
+            if (!url) return;
+            API_URL = url;
+
+            try {
+                const res = await fetch(`${API_URL}/health`, {
+                    headers: { 'ngrok-skip-browser-warning': 'true' }
+                });
+                const data = await res.json();
+
+                if (data.model_loaded) {
+                    document.getElementById('statusDot').classList.add('connected');
+                    isConnected = true;
+                    input.focus();
+                } else {
+                    alert('Connected but model is still loading. Wait a moment and try again.');
+                }
+            } catch (e) {
+                alert('Could not connect. Check the URL and make sure the Colab API is running.');
+            }
+        }
+
+        function handleKey(e) {
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+        }
+
+        function sendSuggestion(chip) {
+            document.getElementById('messageInput').value = chip.textContent;
+            sendMessage();
+        }
+
+        function addMessage(role, text) {
+            const welcome = document.getElementById('welcomeState');
+            if (welcome) welcome.style.display = 'none';
+
+            const container = document.getElementById('chatContainer');
+            const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const avatar = role === 'user' ? 'You' : 'AI';
+            const label = role === 'user' ? 'You' : 'Assistant';
+
+            const div = document.createElement('div');
+            div.className = `message ${role}`;
+            div.innerHTML = `
+                <div class="message-avatar">${avatar}</div>
+                <div class="message-content">
+                    <div class="message-role">${label}</div>
+                    <div class="message-text">${text}</div>
+                    <div class="message-time">${now}</div>
+                </div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const text = input.value.trim();
+            if (!text) return;
+
+            if (!isConnected) {
+                alert('Please connect to the API first — paste your ngrok URL and click Connect.');
+                return;
+            }
+
+            addMessage('user', text);
+            input.value = '';
+            input.style.height = 'auto';
+
+            const typing = document.getElementById('typingIndicator');
+            typing.classList.add('visible');
+            document.getElementById('sendButton').disabled = true;
+
+            try {
+                const res = await fetch(`${API_URL}/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'ngrok-skip-browser-warning': 'true'
+                    },
+                    body: JSON.stringify({
+                        message: text,
+                        history: conversationHistory.length > 0 ? conversationHistory : null,
+                        max_tokens: 256,
+                        temperature: 0.7,
+                    }),
+                });
+
+                const data = await res.json();
+                typing.classList.remove('visible');
+                addMessage('assistant', data.response);
+
+                conversationHistory.push({ role: 'user', content: text });
+                conversationHistory.push({ role: 'assistant', content: data.response });
+
+            } catch (e) {
+                typing.classList.remove('visible');
+                addMessage('assistant', 'Error: Could not get a response. Check that the Colab API is still running.');
+            }
+
+            document.getElementById('sendButton').disabled = false;
+            input.focus();
+        }
+    </script>
+</body>
+</html>

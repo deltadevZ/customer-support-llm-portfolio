@@ -1,0 +1,5 @@
+metric,fine_tuned,zero_shot,change_percent
+ROUGE-1,0.4844,0.3976,21.8
+ROUGE-2,0.2367,0.1337,77.0
+ROUGE-L,0.3368,0.2347,43.5
+Perplexity,2.15,9.21,-76.7

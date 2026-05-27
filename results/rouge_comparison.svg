@@ -1,0 +1,28 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="820" height="470" viewBox="0 0 820 470">
+  <rect width="820" height="470" fill="#ffffff"/>
+  <text x="410" y="42" text-anchor="middle" font-family="Arial" font-size="24" font-weight="700" fill="#111827">Fine-tuned Model vs Zero-shot Baseline</text>
+  <text x="410" y="72" text-anchor="middle" font-family="Arial" font-size="14" fill="#475569">ROUGE scores on sampled test responses</text>
+  <line x1="90" y1="390" x2="760" y2="390" stroke="#CBD5E1"/>
+  <line x1="90" y1="110" x2="90" y2="390" stroke="#CBD5E1"/>
+  <text x="50" y="395" font-family="Arial" font-size="12" fill="#64748B">0.0</text>
+  <text x="50" y="302" font-family="Arial" font-size="12" fill="#64748B">0.2</text>
+  <text x="50" y="208" font-family="Arial" font-size="12" fill="#64748B">0.4</text>
+  <text x="50" y="115" font-family="Arial" font-size="12" fill="#64748B">0.6</text>
+  <rect x="150" y="164" width="52" height="226" fill="#2563EB"/>
+  <rect x="210" y="204" width="52" height="186" fill="#94A3B8"/>
+  <rect x="370" y="280" width="52" height="110" fill="#2563EB"/>
+  <rect x="430" y="328" width="52" height="62" fill="#94A3B8"/>
+  <rect x="590" y="233" width="52" height="157" fill="#2563EB"/>
+  <rect x="650" y="280" width="52" height="110" fill="#94A3B8"/>
+  <text x="206" y="420" text-anchor="middle" font-family="Arial" font-size="14" fill="#111827">ROUGE-1</text>
+  <text x="426" y="420" text-anchor="middle" font-family="Arial" font-size="14" fill="#111827">ROUGE-2</text>
+  <text x="646" y="420" text-anchor="middle" font-family="Arial" font-size="14" fill="#111827">ROUGE-L</text>
+  <text x="176" y="156" text-anchor="middle" font-family="Arial" font-size="12" fill="#111827">0.484</text>
+  <text x="236" y="196" text-anchor="middle" font-family="Arial" font-size="12" fill="#111827">0.398</text>
+  <text x="396" y="272" text-anchor="middle" font-family="Arial" font-size="12" fill="#111827">0.237</text>
+  <text x="456" y="320" text-anchor="middle" font-family="Arial" font-size="12" fill="#111827">0.134</text>
+  <text x="616" y="225" text-anchor="middle" font-family="Arial" font-size="12" fill="#111827">0.337</text>
+  <text x="676" y="272" text-anchor="middle" font-family="Arial" font-size="12" fill="#111827">0.235</text>
+  <rect x="285" y="445" width="14" height="14" fill="#2563EB"/><text x="307" y="457" font-family="Arial" font-size="13" fill="#111827">Fine-tuned</text>
+  <rect x="415" y="445" width="14" height="14" fill="#94A3B8"/><text x="437" y="457" font-family="Arial" font-size="13" fill="#111827">Zero-shot</text>
+</svg>

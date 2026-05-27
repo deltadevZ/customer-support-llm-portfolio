@@ -1,0 +1,14 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="680" height="440" viewBox="0 0 680 440">
+  <rect width="680" height="440" fill="#ffffff"/>
+  <text x="340" y="42" text-anchor="middle" font-family="Arial" font-size="24" font-weight="700" fill="#111827">Perplexity Comparison</text>
+  <text x="340" y="72" text-anchor="middle" font-family="Arial" font-size="14" fill="#475569">Lower is better</text>
+  <line x1="90" y1="360" x2="610" y2="360" stroke="#CBD5E1"/>
+  <line x1="90" y1="100" x2="90" y2="360" stroke="#CBD5E1"/>
+  <rect x="190" y="299" width="110" height="61" fill="#2563EB"/>
+  <rect x="390" y="100" width="110" height="260" fill="#94A3B8"/>
+  <text x="245" y="292" text-anchor="middle" font-family="Arial" font-size="14" fill="#111827">2.15</text>
+  <text x="445" y="93" text-anchor="middle" font-family="Arial" font-size="14" fill="#111827">9.21</text>
+  <text x="245" y="392" text-anchor="middle" font-family="Arial" font-size="15" fill="#111827">Fine-tuned</text>
+  <text x="445" y="392" text-anchor="middle" font-family="Arial" font-size="15" fill="#111827">Zero-shot</text>
+  <text x="340" y="424" text-anchor="middle" font-family="Arial" font-size="13" fill="#475569">Fine-tuning reduced perplexity by 76.7%</text>
+</svg>
