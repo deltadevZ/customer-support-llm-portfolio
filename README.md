@@ -46,6 +46,14 @@ A portfolio project exploring parameter-efficient fine-tuning for customer suppo
 | ROUGE-L | 0.3368 | 0.2347 | +43.5% |
 | Perplexity | 2.15 | 9.21 | -76.7% |
 
+## Result Visuals
+
+![ROUGE comparison](results/rouge_comparison.svg)
+
+![Perplexity comparison](results/perplexity_comparison.svg)
+
+![LoRA rank ablation](results/ablation_study.svg)
+
 See `findings.md` for interpretation, limitations, and suggested next steps.
 
 ## Run The API
